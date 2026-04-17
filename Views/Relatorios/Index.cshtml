@@ -1,0 +1,90 @@
+﻿@model IEnumerable<SistemaFinanceiro.Models.Requisicao>
+
+@{
+    ViewData["Title"] = "Relatórios";
+}
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-3">📊 Relatório de Requisições</h2>
+
+    <!-- FILTROS -->
+    <form method="get" class="row g-3 mb-4">
+
+        <div class="col-md-3">
+            <label>Data Inicial</label>
+            <input type="date" name="dataInicio" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+            <label>Data Final</label>
+            <input type="date" name="dataFim" class="form-control" />
+        </div>
+
+        <div class="col-md-3">
+            <label>Status</label>
+            <select name="status" class="form-select">
+                <option value="">Todos</option>
+                <option value="Pendente">Pendente</option>
+                <option value="Aprovado">Aprovado</option>
+                <option value="Rejeitado">Rejeitado</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">
+                🔍 Filtrar
+            </button>
+        </div>
+
+    </form>
+
+    <!-- TOTAL -->
+    <div class="mb-3">
+        <h5>Total: <span class="text-success">R$ @ViewBag.Total.ToString("N2")</span></h5>
+    </div>
+
+    <!-- TABELA -->
+    <div class="card shadow-sm p-3">
+
+        <table class="table table-hover">
+
+            <thead class="table-light">
+                <tr>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Descricao</td>
+                        <td>R$ @item.Valor.ToString("N2")</td>
+                        <td>@item.Data.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            @if (item.Status == "Pendente")
+                            {
+                                <span class="badge bg-warning text-dark">Pendente</span>
+                            }
+                            else if (item.Status == "Aprovado")
+                            {
+                                <span class="badge bg-success">Aprovado</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Rejeitado</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

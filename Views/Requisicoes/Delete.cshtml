@@ -1,0 +1,52 @@
+@model SistemaFinanceiro.Models.Requisicao
+
+@{
+    ViewData["Title"] = "Excluir Requisição";
+}
+
+<div class="container mt-4">
+
+    <h2 class="fw-bold text-danger mb-3">🗑️ Excluir Requisição</h2>
+    <p class="text-muted">Confirme os dados antes de excluir</p>
+
+    <div class="card shadow-sm p-4">
+
+        <h5 class="text-danger mb-4">
+            ⚠️ Tem certeza que deseja excluir esta requisição?
+        </h5>
+
+        <dl class="row">
+
+            <dt class="col-sm-3">Descrição</dt>
+            <dd class="col-sm-9">@Model.Descricao</dd>
+
+            <dt class="col-sm-3">Valor</dt>
+            <dd class="col-sm-9">R$ @Model.Valor</dd>
+
+            <dt class="col-sm-3">Data</dt>
+            <dd class="col-sm-9">@Model.Data.ToString("dd/MM/yyyy")</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+
+        </dl>
+
+        <div class="mt-4">
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="btn btn-danger">
+                    🗑️ Confirmar Exclusão
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    Cancelar
+                </a>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

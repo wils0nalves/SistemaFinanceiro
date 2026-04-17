@@ -1,0 +1,40 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Erro";
+}
+
+<div class="container text-center mt-5">
+
+    <div class="card shadow-lg p-4">
+
+        <h1 class="text-danger mb-3">⚠️ Ocorreu um erro</h1>
+
+        <h5 class="mb-4">
+            Não foi possível processar sua solicitação no momento.
+        </h5>
+
+        @if (Model.ShowRequestId)
+        {
+            <p class="text-muted">
+                <strong>ID da requisição:</strong>
+                <code>@Model.RequestId</code>
+            </p>
+        }
+
+        <div class="mt-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                Voltar para o início
+            </a>
+        </div>
+
+    </div>
+
+    <!-- SOMENTE PARA DESENVOLVIMENTO -->
+    <div class="mt-5 text-start">
+        <h6>Modo de desenvolvimento</h6>
+        <p class="text-muted">
+            Para visualizar detalhes técnicos do erro, execute o sistema em ambiente de <strong>Desenvolvimento</strong>.
+        </p>
+    </div>
+
+</div>

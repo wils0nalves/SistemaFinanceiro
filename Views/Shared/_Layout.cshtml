@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sistema Financeiro</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+            body {
+                background-color: #f4f6f9;
+            }
+
+            .navbar {
+                background-color: #0f172a !important;
+            }
+
+            .navbar-brand {
+                font-weight: bold;
+                color: #fff !important;
+            }
+
+            .nav-link {
+                color: #cbd5f5 !important;
+            }
+
+            .nav-link:hover {
+                color: #38bdf8 !important;
+            }
+
+            .btn-login {
+                border: 1px solid #38bdf8;
+                color: #38bdf8;
+            }
+
+            .btn-login:hover {
+                background-color: #38bdf8;
+                color: #000;
+            }
+
+            .btn-register {
+                background-color: #38bdf8;
+                color: #000;
+                border: none;
+            }
+
+            .btn-register:hover {
+                background-color: #0ea5e9;
+            }
+
+            .footer {
+                background-color: #0f172a;
+                color: #fff;
+                padding: 10px;
+            }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar navbar-expand-sm shadow-sm">
+            <div class="container-fluid">
+
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    💰 Sistema Financeiro
+                </a>
+
+                <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-flex justify-content-between">
+
+                    <!-- MENU ESQUERDA -->
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Início</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacidade</a>
+                        </li>
+                    </ul>
+
+                    <!-- LOGIN / USUÁRIO -->
+                    <ul class="navbar-nav align-items-center">
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link">
+                                    👤 @User.Identity.Name
+                                </span>
+                            </li>
+
+                            <li class="nav-item">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit" class="btn btn-danger btn-sm ms-2">
+                                        Sair
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-login btn-sm me-2"
+                                   asp-area="Identity"
+                                   asp-page="/Account/Login">
+                                    Entrar
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="btn btn-register btn-sm"
+                                   asp-area="Identity"
+                                   asp-page="/Account/Register">
+                                    Criar conta
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <div class="container mt-4">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer class="footer text-center mt-5">
+        <div>
+            Sistema Financeiro © 2026
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

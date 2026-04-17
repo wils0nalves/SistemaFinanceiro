@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Início";
+}
+
+<div class="container mt-4">
+
+    <!-- TÍTULO -->
+    <div class="mb-4">
+        <h2 class="fw-bold">📊 Painel do Sistema</h2>
+        <p class="text-muted">Bem-vindo ao sistema financeiro</p>
+    </div>
+
+    <!-- CARDS -->
+    <div class="row">
+
+        <!-- SALDO -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">💰 Saldo</h5>
+                    <h3 class="text-success">
+                        R$ @ViewBag.Saldo.ToString("N2")
+                    </h3>
+                    <p class="text-muted">Saldo atual disponível</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- REQUISIÇÕES -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">📄 Requisições</h5>
+                    <h3>@ViewBag.TotalRequisicoes</h3>
+                    <p class="text-muted">Total de requisições cadastradas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOVIMENTAÇÕES -->
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">📈 Movimentações</h5>
+                    <h3>@ViewBag.Movimentacoes</h3>
+                    <p class="text-muted">Entradas e saídas</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- AÇÕES RÁPIDAS -->
+    <div class="mt-4">
+        <h5 class="mb-3">Ações rápidas</h5>
+
+        <a class="btn btn-primary me-2" asp-controller="Requisicoes" asp-action="Index">
+            📄 Hub de Requisições
+        </a>
+
+        <a class="btn btn-success me-2" asp-controller="Requisicoes" asp-action="Create">
+            ➕ Novo lançamento
+        </a>
+
+        <a class="btn btn-secondary" asp-controller="Relatorios" asp-action="Index">
+            📊 Relatórios
+        </a>
+    </div>
+
+</div>

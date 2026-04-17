@@ -1,0 +1,48 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Sair";
+}
+
+<div class="container mt-5 text-center">
+
+    <div class="card shadow-sm p-4">
+
+        <h2 class="mb-3">🔐 Encerrar sessão</h2>
+
+        @if (User.Identity?.IsAuthenticated ?? false)
+        {
+            <p class="text-muted mb-4">
+                Deseja realmente sair do sistema?
+            </p>
+
+            <form asp-area="Identity"
+                  asp-page="/Account/Logout"
+                  asp-route-returnUrl="@Url.Page("/", new { area = "" })"
+                  method="post">
+
+                <button type="submit" class="btn btn-danger">
+                    Sair do sistema
+                </button>
+
+                <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">
+                    Cancelar
+                </a>
+            </form>
+        }
+        else
+        {
+            <h5 class="text-success mb-3">
+                ✔ Você saiu do sistema com sucesso
+            </h5>
+
+            <a asp-area="Identity"
+               asp-page="/Account/Login"
+               class="btn btn-primary">
+                Fazer login novamente
+            </a>
+        }
+
+    </div>
+
+</div>
