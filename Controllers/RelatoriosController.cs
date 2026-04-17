@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SistemaFinanceiro.Data;
-
-using Microsoft.AspNetCore.Mvc;
-using SistemaFinanceiro.Data;
 using SistemaFinanceiro.Models;
 using System.Linq;
+using System; // Adicionei este para o DateTime funcionar sem erro
 
 namespace SistemaFinanceiro.Controllers
 {
@@ -32,6 +30,7 @@ namespace SistemaFinanceiro.Controllers
 
             var lista = query.ToList();
 
+            // Soma o total dos registros filtrados para exibir no topo do relatório
             ViewBag.Total = lista.Sum(r => r.Valor);
 
             return View(lista);

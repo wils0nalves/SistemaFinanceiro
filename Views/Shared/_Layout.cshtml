@@ -9,60 +9,86 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     <style>
+            /* --- AJUSTE PARA RODAPÉ FIXO NO CHÃO (STICKY FOOTER) --- */
+            html, body {
+                height: 100%;
+                margin: 0;
+            }
+
             body {
+                display: flex;
+                flex-direction: column;
                 background-color: #f4f6f9;
             }
 
+            /* Faz o conteúdo principal crescer e empurrar o footer */
+            main {
+                flex: 1;
+            }
+
+            /* --- ESTILOS VISUAIS --- */
             .navbar {
                 background-color: #0f172a !important;
+                padding: 0.8rem 1rem;
             }
 
             .navbar-brand {
                 font-weight: bold;
                 color: #fff !important;
+                font-size: 1.25rem;
             }
 
             .nav-link {
                 color: #cbd5f5 !important;
+                font-weight: 500;
             }
 
-            .nav-link:hover {
-                color: #38bdf8 !important;
-            }
+                .nav-link:hover {
+                    color: #38bdf8 !important;
+                }
 
             .btn-login {
                 border: 1px solid #38bdf8;
                 color: #38bdf8;
+                font-weight: 600;
+                border-radius: 8px;
+                padding: 5px 15px;
             }
 
-            .btn-login:hover {
-                background-color: #38bdf8;
-                color: #000;
-            }
+                .btn-login:hover {
+                    background-color: #38bdf8;
+                    color: #0f172a;
+                }
 
             .btn-register {
                 background-color: #38bdf8;
-                color: #000;
+                color: #0f172a;
+                font-weight: 600;
                 border: none;
+                border-radius: 8px;
+                padding: 5px 15px;
             }
 
-            .btn-register:hover {
-                background-color: #0ea5e9;
-            }
+                .btn-register:hover {
+                    background-color: #0ea5e9;
+                }
 
             .footer {
                 background-color: #0f172a;
-                color: #fff;
-                padding: 10px;
+                color: #94a3b8;
+                padding: 20px 0;
+                border-top: 1px solid rgba(255,255,255,0.1);
             }
+
+                .footer b {
+                    color: #38bdf8;
+                }
     </style>
 </head>
-
 <body>
 
-    <!-- NAVBAR -->
     <header>
-        <nav class="navbar navbar-expand-sm shadow-sm">
+        <nav class="navbar navbar-expand-sm shadow-sm mb-3">
             <div class="container-fluid">
 
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">
@@ -75,7 +101,6 @@
 
                 <div class="navbar-collapse collapse d-sm-flex justify-content-between">
 
-                    <!-- MENU ESQUERDA -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">Início</a>
@@ -85,20 +110,19 @@
                         </li>
                     </ul>
 
-                    <!-- LOGIN / USUÁRIO -->
-                    <ul class="navbar-nav align-items-center">
+                    <ul class="navbar-nav align-items-center gap-2">
 
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <span class="nav-link">
+                                <a class="nav-link pe-3" asp-area="Identity" asp-page="/Account/Manage/Index">
                                     👤 @User.Identity.Name
-                                </span>
+                                </a>
                             </li>
 
                             <li class="nav-item">
-                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm ms-2">
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="m-0">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">
                                         Sair
                                     </button>
                                 </form>
@@ -107,7 +131,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="btn btn-login btn-sm me-2"
+                                <a class="btn btn-login btn-sm"
                                    asp-area="Identity"
                                    asp-page="/Account/Login">
                                     Entrar
@@ -130,17 +154,15 @@
         </nav>
     </header>
 
-    <!-- CONTEÚDO -->
-    <div class="container mt-4">
-        <main role="main">
+    <main role="main">
+        <div class="container mt-2">
             @RenderBody()
-        </main>
-    </div>
+        </div>
+    </main>
 
-    <!-- RODAPÉ -->
-    <footer class="footer text-center mt-5">
-        <div>
-            Sistema Financeiro © 2026
+    <footer class="footer mt-auto">
+        <div class="container text-center">
+            Sistema Financeiro © 2026 | Desenvolvido por <b>wilson_alves</b>
         </div>
     </footer>
 

@@ -1,62 +1,169 @@
 ﻿@page
 @model LoginModel
 @{
-    Layout = "/Areas/Identity/Pages/Shared/_IdentityLayout.cshtml";
     ViewData["Title"] = "Entrar";
 }
 
-<div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] SAAS - Sistema Financeiro</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+            /* Força o corpo a não ter rolagem e ocupar 100% */
+            html, body {
+                height: 100%;
+                margin: 0;
+                overflow: hidden; /* Remove as barras de rolagem */
+            }
 
-    <div class="card shadow-lg p-4" style="width: 400px; border-radius: 10px;">
+            /* --- ANIMAÇÃO DE FUNDO COLORIDO (FADE) --- */
+            @@keyframes gradientAnimation {
+                0% {
+                    background-position: 0% 50%;
+                }
 
-        <div class="text-center mb-4">
-            <h3 class="fw-bold">💰 Sistema Financeiro</h3>
-            <p class="text-muted">Acesse sua conta</p>
+                50% {
+                    background-position: 100% 50%;
+                }
+
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+
+            .main-container {
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                /* Definição das cores do degradê (Várias cores suaves) */
+                background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+                /* Tamanho exagerado do fundo para a animação funcionar */
+                background-size: 400% 400%;
+                /* Aplicação da animação: Nome, Tempo (15s), Tipo (Ease), Infinita */
+                animation: gradientAnimation 15s ease infinite;
+                padding: 10px;
+            }
+            /* --- FIM DA ANIMAÇÃO --- */
+
+            .login-card {
+                width: 100%;
+                max-width: 400px;
+                border-radius: 20px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+                /* Efeito de Vidro (Glassmorphism) para destacar sobre o fundo colorido */
+                background: rgba(255, 255, 255, 0.8);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px); /* Suporte para Safari/iOS */
+                padding: 1.5rem !important;
+                border: 1px solid rgba(255, 255, 255, 0.3); /* Bordinha brilhante */
+            }
+
+            .form-control {
+                border-radius: 10px;
+                height: 50px;
+                background-color: rgba(255, 255, 255, 0.9); /* Fundo do input mais claro */
+            }
+
+            .btn-entrar {
+                border-radius: 12px;
+                padding: 12px;
+                font-weight: bold;
+                background: #0d6efd;
+                border: none;
+                box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+                transition: 0.3s;
+            }
+
+                .btn-entrar:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+                }
+
+            .dev-badge {
+                background: rgba(248, 249, 250, 0.8);
+                border-radius: 15px;
+                padding: 10px;
+                border: 1px solid rgba(0,0,0,0.05);
+                margin-top: 15px;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+
+        <div class="card login-card border-0">
+
+            <div class="text-center mb-3">
+                <div style="font-size: 2.5rem;">💰</div>
+                <h4 class="fw-bold" style="color: #2c3e50; margin-bottom: 0;">SAAS - Sistema Financeiro</h4>
+                <p class="text-muted small">Acesse sua conta</p>
+            </div>
+
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2 small"></div>
+
+                <div class="form-floating mb-2">
+                    <input asp-for="Input.Email" class="form-control" placeholder="email@exemplo.com" />
+                    <label asp-for="Input.Email">E-mail</label>
+                </div>
+
+                <div class="form-floating mb-2">
+                    <input asp-for="Input.Password" class="form-control" placeholder="Senha" />
+                    <label asp-for="Input.Password">Senha</label>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        <label class="form-check-label small text-muted" asp-for="Input.RememberMe">Lembrar</label>
+                    </div>
+                    <a asp-page="./ForgotPassword" class="small text-decoration-none fw-bold">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="w-100 btn btn-primary btn-entrar text-uppercase">
+                    Entrar no Sistema
+                </button>
+
+                <div class="text-center mt-2">
+                    <span class="small text-muted">Novo por aqui?</span>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="small fw-bold text-decoration-none">Criar conta</a>
+                </div>
+            </form>
+
+            <div class="dev-badge text-center">
+                <span style="
+                    font-family: 'Courier New', monospace;
+                    font-weight: 800;
+                    font-size: 13px;
+                    padding: 4px 12px;
+                    background: linear-gradient(45deg, #0d6efd, #0046af);
+                    color: white;
+                    border-radius: 8px;
+                    display: inline-block;
+                    margin-bottom: 5px;">
+                    &lt;wilson alves&gt;
+                </span>
+                <div style="font-size: 10px; color: #6c757d;">
+                    <div>yuri.tinocoalves13@hotmail.com</div>
+                    <a href="https://www.linkedin.com/in/wilson-yuri-alves-47580323a/"
+                       target="_blank" style="color: #0a66c2; text-decoration: none;">
+                        linkedin.com/in/wilson-yuri-alves
+                    </a>
+                </div>
+            </div>
+
         </div>
-
-        <form id="account" method="post">
-
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" placeholder="email@exemplo.com" />
-                <label asp-for="Input.Email">E-mail</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" placeholder="Senha" />
-                <label asp-for="Input.Password">Senha</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-
-            <div class="form-check mb-3">
-                <input class="form-check-input" asp-for="Input.RememberMe" />
-                <label class="form-check-label" asp-for="Input.RememberMe">
-                    Lembrar de mim
-                </label>
-            </div>
-
-            <button type="submit" class="w-100 btn btn-primary">
-                Entrar
-            </button>
-
-            <div class="text-center mt-3">
-                <a asp-page="./ForgotPassword" class="d-block mb-1">
-                    Esqueceu a senha?
-                </a>
-
-                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">
-                    Criar uma conta
-                </a>
-            </div>
-
-        </form>
-
     </div>
 
-</div>
-
-@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
-}
+
+</body>
+</html>
