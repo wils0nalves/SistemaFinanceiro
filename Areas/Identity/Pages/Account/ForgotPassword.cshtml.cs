@@ -1,71 +1,30 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 
-namespace SistemaFinanceiro.Areas.Identity.Pages.Account
-{
-    public class ForgotPasswordModel : PageModel
-    {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
+await _emailSender.SendEmailAsync(
+    Input.Email,
+    "Redefinição de Senha - Sistema Financeiro",
+    $@"
+    <h2>Redefinição de senha</h2>
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
-        {
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
+    <p>Olá,</p>
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+    <p>Recebemos uma solicitação para redefinir sua senha.</p>
 
-        public class InputModel
-        {
-            [Required(ErrorMessage = "O campo E-mail é obrigatório.")]
-            [EmailAddress(ErrorMessage = "Insira um endereço de e-mail válido.")]
-            [Display(Name = "E-mail")]
-            public string Email { get; set; }
-        }
+    <p>
+        Clique no link abaixo para criar uma nova senha:
+    </p>
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
+    <p>
+        <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>
+            Redefinir senha
+        </a>
+    </p>
 
-                // IMPORTANTE: Mantemos o redirecionamento mesmo se o usuário não existir
-                // para evitar que invasores descubram e-mails cadastrados.
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    return RedirectToPage("./ForgotPasswordConfirmation");
-                }
+    <p>Se você não solicitou isso, ignore este e-mail.</p>
 
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+    <hr/>
 
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", code },
-                    protocol: Request.Scheme);
-
-                // Traduzindo o assunto e o corpo do e-mail
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Redefinição de Senha - Sistema Financeiro",
-                    $"Olá! Redefina sua senha <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
-
-                return RedirectToPage("./ForgotPasswordConfirmation");
-            }
-
-            return Page();
-        }
-    }
-}
+    <p style='font-size:12px;color:gray;'>
+        Sistema Financeiro
+    </p>
+    ");
