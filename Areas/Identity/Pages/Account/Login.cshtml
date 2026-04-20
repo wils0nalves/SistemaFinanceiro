@@ -1,6 +1,7 @@
 ﻿@page
 @model LoginModel
 @{
+    Layout = null;
     ViewData["Title"] = "Entrar";
 }
 
@@ -9,17 +10,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] SAAS - Sistema Financeiro</title>
+    <title>@ViewData["Title"] - SAAS - Sistema Financeiro</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
     <style>
-            /* Força o corpo a não ter rolagem e ocupar 100% */
             html, body {
                 height: 100%;
                 margin: 0;
-                overflow: hidden; /* Remove as barras de rolagem */
+                padding: 0;
+                overflow: hidden;
+                font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             }
 
-            /* --- ANIMAÇÃO DE FUNDO COLORIDO (FADE) --- */
+            .main-container {
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+                background-size: 400% 400%;
+                animation: gradientAnimation 15s ease infinite;
+            }
+
             @@keyframes gradientAnimation {
                 0% {
                     background-position: 0% 50%;
@@ -34,82 +47,54 @@
                 }
             }
 
-            .main-container {
-                height: 100vh;
-                width: 100vw;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                /* Definição das cores do degradê (Várias cores suaves) */
-                background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-                /* Tamanho exagerado do fundo para a animação funcionar */
-                background-size: 400% 400%;
-                /* Aplicação da animação: Nome, Tempo (15s), Tipo (Ease), Infinita */
-                animation: gradientAnimation 15s ease infinite;
-                padding: 10px;
-            }
-            /* --- FIM DA ANIMAÇÃO --- */
-
             .login-card {
                 width: 100%;
-                max-width: 400px;
+                max-width: 360px; /* Reduzido de 400px para 360px */
                 border-radius: 20px;
-                box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-                /* Efeito de Vidro (Glassmorphism) para destacar sobre o fundo colorido */
-                background: rgba(255, 255, 255, 0.8);
-                backdrop-filter: blur(15px);
-                -webkit-backdrop-filter: blur(15px); /* Suporte para Safari/iOS */
-                padding: 1.5rem !important;
-                border: 1px solid rgba(255, 255, 255, 0.3); /* Bordinha brilhante */
+                background: rgba(255, 255, 255, 0.88);
+                backdrop-filter: blur(10px);
+                padding: 25px 30px; /* Padding mais compacto */
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                border: 1px solid rgba(255, 255, 255, 0.3);
             }
 
-            .form-control {
+            .form-floating > .form-control {
+                height: 50px; /* Inputs levemente menores */
+                min-height: 50px;
+            }
+
+            .form-floating > label {
+                padding: 13px 12px;
+            }
+
+            .btn-primary {
                 border-radius: 10px;
-                height: 50px;
-                background-color: rgba(255, 255, 255, 0.9); /* Fundo do input mais claro */
-            }
-
-            .btn-entrar {
-                border-radius: 12px;
-                padding: 12px;
-                font-weight: bold;
-                background: #0d6efd;
-                border: none;
-                box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
-                transition: 0.3s;
-            }
-
-                .btn-entrar:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
-                }
-
-            .dev-badge {
-                background: rgba(248, 249, 250, 0.8);
-                border-radius: 15px;
                 padding: 10px;
-                border: 1px solid rgba(0,0,0,0.05);
-                margin-top: 15px;
+                font-size: 0.9rem;
+                letter-spacing: 0.5px;
+            }
+
+            .forgot-password, .register-link {
+                font-size: 0.8rem;
+                color: #0d6efd;
+                text-decoration: none;
             }
     </style>
 </head>
 <body>
 
     <div class="main-container">
-
-        <div class="card login-card border-0">
-
+        <div class="login-card">
             <div class="text-center mb-3">
-                <div style="font-size: 2.5rem;">💰</div>
-                <h4 class="fw-bold" style="color: #2c3e50; margin-bottom: 0;">SAAS - Sistema Financeiro</h4>
-                <p class="text-muted small">Acesse sua conta</p>
+                <h4 class="fw-bold mb-1">💰 SEU SAAS - Sistema Financeiro</h4>
+                <p class="text-muted small mb-0">Acesse sua conta</p>
             </div>
 
-            <form id="account" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-2 small"></div>
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-2" role="alert"></div>
 
                 <div class="form-floating mb-2">
-                    <input asp-for="Input.Email" class="form-control" placeholder="email@exemplo.com" />
+                    <input asp-for="Input.Email" class="form-control" placeholder="E-mail" />
                     <label asp-for="Input.Email">E-mail</label>
                 </div>
 
@@ -120,49 +105,30 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        <label class="form-check-label small text-muted" asp-for="Input.RememberMe">Lembrar</label>
+                        <input asp-for="Input.RememberMe" class="form-check-input" />
+                        <label class="form-check-label text-muted" style="font-size: 0.75rem;">Lembrar</label>
                     </div>
-                    <a asp-page="./ForgotPassword" class="small text-decoration-none fw-bold">Esqueceu a senha?</a>
+                    <a asp-page="./ForgotPassword" class="forgot-password fw-bold">Esqueceu a senha?</a>
                 </div>
 
-                <button type="submit" class="w-100 btn btn-primary btn-entrar text-uppercase">
-                    Entrar no Sistema
-                </button>
+                <button type="submit" class="w-100 btn btn-primary text-uppercase fw-bold">Entrar</button>
 
-                <div class="text-center mt-2">
-                    <span class="small text-muted">Novo por aqui?</span>
-                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="small fw-bold text-decoration-none">Criar conta</a>
-                </div>
+                <p class="text-center mt-3 mb-0" style="font-size: 0.8rem;">
+                    Não tem conta? <a asp-page="./Register" class="register-link fw-bold">Criar agora</a>
+                </p>
             </form>
 
-            <div class="dev-badge text-center">
-                <span style="
-                    font-family: 'Courier New', monospace;
-                    font-weight: 800;
-                    font-size: 13px;
-                    padding: 4px 12px;
-                    background: linear-gradient(45deg, #0d6efd, #0046af);
-                    color: white;
-                    border-radius: 8px;
-                    display: inline-block;
-                    margin-bottom: 5px;">
-                    &lt;wilson alves&gt;
-                </span>
-                <div style="font-size: 10px; color: #6c757d;">
-                    <div>yuri.tinocoalves13@hotmail.com</div>
-                    <a href="https://www.linkedin.com/in/wilson-yuri-alves-47580323a/"
-                       target="_blank" style="color: #0a66c2; text-decoration: none;">
-                        linkedin.com/in/wilson-yuri-alves
-                    </a>
-                </div>
-            </div>
+            <hr class="my-3" style="opacity: 0.08;">
 
+            <div class="text-center">
+                <div class="badge bg-primary bg-opacity-10 text-primary mb-1" style="font-family: monospace; font-size: 11px;">
+                    &lt;dev_wilson_alves /&gt;
+                </div>
+                <div class="text-muted" style="font-size: 10px;">yuri.tinocoalves13@hotmail.com</div>
+            </div>
         </div>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
 
 </body>
